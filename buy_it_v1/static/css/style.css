@@ -380,15 +380,10 @@ table td img {
   margin-top: -10px;
   /* -1/2 height */
 }
-.product_card {
- display:flex
- flex-direction: row
- flex: 20%;
- background: blue
-}
+
+
 
 @media (max-width: 767.98px) {
-
     .sidebar {
         border-left-width: 0 !important;
         border-top-width: 1px !important;
