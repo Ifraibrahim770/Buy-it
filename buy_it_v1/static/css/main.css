@@ -118,9 +118,3 @@ h1,h2,h3,h4,h5,h6{
   padding: 10px;
 }
 
-.product_card {
- display:flex
- flex-direction: row
- flex: 20%;
- background: blue
-}
