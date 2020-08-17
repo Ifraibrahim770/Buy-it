@@ -9,6 +9,10 @@ admin.site.register(OrderItem)
 admin.site.register(ShippingAddress)
 admin.site.register(CarouselImages)
 admin.site.register(ProductDescription)
+admin.site.register(ProductImage)
+admin.site.register(ProductCategory)
+
+
 
 
 

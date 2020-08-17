@@ -25,5 +25,8 @@ def checkout(request):
 def view(request, product_id):
     product_info = Product.objects.filter(id=product_id)
     product_description = ProductDescription.objects.filter(product=product_id)
-    context = {'product_info': product_info, 'product_description': product_description }
+    product_images = ProductImage.objects.filter(product=product_id)
+    context = {'product_info': product_info,
+               'product_description': product_description,
+               'product_images': product_images}
     return render(request, 'store/view_product.html', context)

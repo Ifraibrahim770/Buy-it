@@ -13,11 +13,19 @@ class Customer(models.Model):
         return self.name
 
 
+class ProductCategory (models.Model):
+    categoryName = models.CharField(max_length=200, null=False)
+
+    def __str__(self):
+        return self.categoryName
+
+
 class Product(models.Model):
     name = models.CharField(max_length=100, null=True)
+    category = models.ForeignKey(ProductCategory, on_delete=models.SET_NULL, null=True)
     price = models.FloatField()
     digital = models.BooleanField(default=False, null=True, blank=False)
-    image= models.ImageField(null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -26,6 +34,9 @@ class Product(models.Model):
 class ProductDescription(models.Model):
     product = models.ForeignKey(Product, null=True, on_delete=models.CASCADE, blank=True)
     description = models.CharField(max_length=300, null=True)
+
+    def __str__(self):
+        return self.product.name
 
 
 class Order(models.Model):
@@ -60,6 +71,17 @@ class ShippingAddress(models.Model):
 
 class CarouselImages(models.Model):
     image = models.ImageField(null=True, blank=True)
+
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    image = models.ImageField(blank=True, null=True)
+
+    def __str__(self):
+        return str(self.product.name)
+
+
+
 
 
 

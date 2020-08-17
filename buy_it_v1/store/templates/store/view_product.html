@@ -144,22 +144,25 @@
                             <!-- Product Images -->
                             <div class="col-lg-5 col-md-12 mb-3">
                                 <div class="col-12 mb-3">
-                                    <div class="img-large border" style="background-image: url('images/image-1.jpg')"></div>
+                                    {% for product in product_info %}
+                                    <div class="img-large border" style="background-image: url('{{product.image.url}}')"></div>
+
+                                    {% endfor %}
                                 </div>
                                 <div class="col-12">
                                     <div class="row">
                                         <div class="col-sm-2 col-3">
-                                            <div class="img-small border" style="background-image: url('images/image-1.jpg')" data-src="images/image-1.jpg"></div>
+                                             {% for product in product_info %}
+                                            <div class="img-small border" style="background-image:  url('{{product.image.url}}')" data-src="{{product.image.url}}"></div>
+                                             {% endfor %}
                                         </div>
+
+                                        {% for product_image in product_images %}
                                         <div class="col-sm-2 col-3">
-                                            <div class="img-small border" style="background-image: url('images/image-2.jpg')" data-src="images/image-2.jpg"></div>
+                                            <div class="img-small border" style="background-image: url('{{product_image.image.url}}')" data-src="{{product_image.image.url}}"></div>
                                         </div>
-                                        <div class="col-sm-2 col-3">
-                                            <div class="img-small border" style="background-image: url('images/image-3.jpg')" data-src="images/image-3.jpg"></div>
-                                        </div>
-                                        <div class="col-sm-2 col-3">
-                                            <div class="img-small border" style="background-image: url('images/image-4.jpg')" data-src="images/image-4.jpg"></div>
-                                        </div>
+                                        {% endfor %}
+
                                     </div>
                                 </div>
                             </div>
@@ -191,14 +194,16 @@
                             <div class="col-lg-2 col-md-3 text-center">
                                 <div class="col-12 border-left border-top sidebar h-100">
                                     <div class="row">
+                                        {% for product in product_info %}
                                         <div class="col-12">
                                         <span class="detail-price">
-                                            $2,500
+                                            ${{product.price}}
                                         </span>
                                             <span class="detail-price-old">
                                             $2,800
                                         </span>
                                         </div>
+                                        {% endfor %}
                                         <div class="col-xl-5 col-md-9 col-sm-3 col-5 mx-auto mt-3">
                                             <div class="form-group">
                                                 <label for="qty">Quantity</label>
@@ -463,7 +468,7 @@
                     </div>
 
                     <!-- Similar Product -->
-                    <div class="col-12">
+                   <div class="col-12">
                         <div class="row">
                             <div class="col-12 py-3">
                                 <div class="row">
@@ -472,9 +477,8 @@
                                     </div>
                                 </div>
                                 <div class="row">
-
                                     <!-- Product -->
-                                    <div class="col-lg-3 col-sm-6 my-3">
+                                    <div class="col-lg-2 col-md-3 col-sm-6 my-3">
                                         <div class="col-12 bg-white text-center h-100 product-item">
                                             <div class="row h-100">
                                                 <div class="col-12 p-0 mb-3">
@@ -503,7 +507,7 @@
                                     <!-- Product -->
 
                                     <!-- Product -->
-                                    <div class="col-lg-3 col-sm-6 my-3">
+                                    <div class="col-lg-2 col-md-3 col-sm-6 my-3">
                                         <div class="col-12 bg-white text-center h-100 product-item">
                                             <div class="row h-100">
                                                 <div class="col-12 p-0 mb-3">
@@ -528,7 +532,7 @@
                                     <!-- Product -->
 
                                     <!-- Product -->
-                                    <div class="col-lg-3 col-sm-6 my-3">
+                                    <div class="col-lg-2 col-md-3 col-sm-6 my-3">
                                         <div class="col-12 bg-white text-center h-100 product-item">
                                             <div class="row h-100">
                                                 <div class="col-12 p-0 mb-3">
@@ -556,7 +560,114 @@
                                     <!-- Product -->
 
                                     <!-- Product -->
-                                    <div class="col-lg-3 col-sm-6 my-3">
+                                    <div class="col-lg-2 col-md-3 col-sm-6 my-3">
+                                        <div class="col-12 bg-white text-center h-100 product-item">
+                                            <div class="row h-100">
+                                                <div class="col-12 p-0 mb-3">
+                                                    <a href="product.html">
+                                                        <img src="images/image-4.jpg" class="img-fluid">
+                                                    </a>
+                                                </div>
+                                                <div class="col-12 mb-3">
+                                                    <a href="product.html" class="product-name">Dell Alienware Area 51</a>
+                                                </div>
+                                                <div class="col-12 mb-3">
+                                                    <span class="product-price">
+                                                        $4,500
+                                                    </span>
+                                                </div>
+                                                <div class="col-12 mb-3 align-self-end">
+                                                    <button class="btn btn-outline-dark" type="button"><i class="fas fa-cart-plus mr-2"></i>Add to cart</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product -->
+
+                                    <!-- Product -->
+                                    <div class="col-lg-2 col-md-3 col-sm-6 my-3">
+                                        <div class="col-12 bg-white text-center h-100 product-item">
+                                            <div class="row h-100">
+                                                <div class="col-12 p-0 mb-3">
+                                                    <a href="product.html">
+                                                        <img src="images/image-1.jpg" class="img-fluid">
+                                                    </a>
+                                                </div>
+                                                <div class="col-12 mb-3">
+                                                    <a href="product.html" class="product-name">Sony Alpha DSLR Camera</a>
+                                                </div>
+                                                <div class="col-12 mb-3">
+                                                    <span class="product-price-old">
+                                                        $500
+                                                    </span>
+                                                    <br>
+                                                    <span class="product-price">
+                                                        $500
+                                                    </span>
+                                                </div>
+                                                <div class="col-12 mb-3 align-self-end">
+                                                    <button class="btn btn-outline-dark" type="button"><i class="fas fa-cart-plus mr-2"></i>Add to cart</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product -->
+
+                                    <!-- Product -->
+                                    <div class="col-lg-2 col-md-3 col-sm-6 my-3">
+                                        <div class="col-12 bg-white text-center h-100 product-item">
+                                            <div class="row h-100">
+                                                <div class="col-12 p-0 mb-3">
+                                                    <a href="product.html">
+                                                        <img src="images/image-2.jpg" class="img-fluid">
+                                                    </a>
+                                                </div>
+                                                <div class="col-12 mb-3">
+                                                    <a href="product.html" class="product-name">Optoma 4K HDR Projector</a>
+                                                </div>
+                                                <div class="col-12 mb-3">
+                                                    <span class="product-price">
+                                                        $1,500
+                                                    </span>
+                                                </div>
+                                                <div class="col-12 mb-3 align-self-end">
+                                                    <button class="btn btn-outline-dark" type="button"><i class="fas fa-cart-plus mr-2"></i>Add to cart</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product -->
+
+                                    <!-- Product -->
+                                    <div class="col-lg-2 col-md-3 col-sm-6 my-3">
+                                        <div class="col-12 bg-white text-center h-100 product-item">
+                                            <div class="row h-100">
+                                                <div class="col-12 p-0 mb-3">
+                                                    <a href="product.html">
+                                                        <img src="images/image-3.jpg" class="img-fluid">
+                                                    </a>
+                                                </div>
+                                                <div class="col-12 mb-3">
+                                                    <a href="product.html" class="product-name">HP Envy Specter 360</a>
+                                                </div>
+                                                <div class="col-12 mb-3">
+                                                    <div class="product-price-old">
+                                                        $2,800
+                                                    </div>
+                                                    <span class="product-price">
+                                                        $2,500
+                                                    </span>
+                                                </div>
+                                                <div class="col-12 mb-3 align-self-end">
+                                                    <button class="btn btn-outline-dark" type="button"><i class="fas fa-cart-plus mr-2"></i>Add to cart</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product -->
+
+                                    <!-- Product -->
+                                    <div class="col-lg-2  col-md-3 col-sm-6 my-3">
                                         <div class="col-12 bg-white text-center h-100 product-item">
                                             <div class="row h-100">
                                                 <div class="col-12 p-0 mb-3">

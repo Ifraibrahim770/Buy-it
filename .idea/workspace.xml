@@ -3,7 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="9e878544-68b6-4bf1-b341-917024303633" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buy_it_v1/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buy_it_v1/store/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/store/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buy_it_v1/store/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/store/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/buy_it_v1/store/templates/store/store.html" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/store/templates/store/store.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buy_it_v1/store/templates/store/view_product.html" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/store/templates/store/view_product.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buy_it_v1/store/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/store/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,9 +130,9 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="461" y="168" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1597228372151" />
-    <state x="655" y="349" key="com.intellij.ide.util.TipDialog" timestamp="1597547018181">
+    <state x="655" y="349" key="com.intellij.ide.util.TipDialog" timestamp="1597635836310">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="655" y="349" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1597547018181" />
+    <state x="655" y="349" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1597635836310" />
   </component>
 </project>
