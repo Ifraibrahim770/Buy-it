@@ -3,12 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9e878544-68b6-4bf1-b341-917024303633" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/buy_it_v1/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/buy_it_v1/store/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/store/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/buy_it_v1/store/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/store/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/buy_it_v1/store/templates/store/store.html" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/store/templates/store/store.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/buy_it_v1/store/templates/store/view_product.html" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/store/templates/store/view_product.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/buy_it_v1/store/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/store/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,16 +78,43 @@
       <updated>1597038974147</updated>
       <workItem from="1597572834233" duration="4244000" />
     </task>
+    <task id="LOCAL-00001" summary="Images Functionality Added&#10;&#10;Product Category Model Added">
+      <created>1597641387322</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1597641387322</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Images Functionality Added&#10;&#10;Product Category Model Added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Images Functionality Added&#10;&#10;Product Category Model Added" />
   </component>
   <component name="WindowStateProjectService">
     <state x="141" y="187" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597575156965">
       <screen x="0" y="159" width="1366" height="741" />
     </state>
     <state x="141" y="187" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.159.1366.741/1366.0.1600.900@0.159.1366.741" timestamp="1597575156965" />
+    <state x="614" y="120" key="CommitChangelistDialog2" timestamp="1597641384077">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="614" y="120" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1597641384077" />
     <state width="1899" height="133" key="GridCell.Tab.0.bottom" timestamp="1597519058685">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
