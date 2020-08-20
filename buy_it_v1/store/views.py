@@ -15,7 +15,14 @@ def store(request):
 
 
 def cart(request):
-    context = {}
+    if request.user.is_authenticated:
+        customer =request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items =order.orderitem_set.all()
+    else:
+        items = []
+    context = {'items':items,
+               'order':order}
     return render(request, 'store/cart.html', context)
 
 
@@ -33,10 +40,12 @@ def view(request, product_id):
     # similar_products
     product_category = Product.objects.values_list('category', flat=True).get(pk=product_id)
     similar_products = Product.objects.filter(category=product_category)
+    category_options = ProductCategory.objects.all()
 
     #context99
     context = {'product_info': product_info,
                'product_description': product_description,
                'product_images': product_images,
+               'category_options': category_options,
                'similar_products': similar_products}
     return render(request, 'store/view_product.html', context)

@@ -1,68 +1,103 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="en">
 <head>
-    {%extends 'store/main.html' %}
-    {% load static %}
-
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+   {%extends 'store/gg.html' %}
+     {% load static %}
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>E-Commerce Template</title>
+
+    <link href="//fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300i,700" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-{% block content %}
-<div class="row">
-<div class="col-lg-12">
+    {% block content %}
+    <div class="container-fluid">
 
-    <div class="box-element">
-        <a href="{%url 'store' %}" class="btn btn-outline-dark">&#x2190; Continue Shopping</a>
-        <br>
-        <br>
-        <table class="table">
-            <tr>
-                <th><h5>Items: <strong>4</strong></h5></th>
-                <th><h5>Total: <strong>400/=</strong></h5></th>
-                <th><a href="{%url 'checkout'%}" style="float:right; margin:5px" class="btn btn-success">Checkout Items</a></th>
-            </tr>
-
-
-        </table>
-
-    </div>
-    <br>
-
-    <div class="box-element">
-        <div class="cart-row">
-            <div style="flex:2"></div>
-            <div style="flex:2"><strong>Item</strong></div>
-            <div style="flex:1"><strong>Price</strong></div>
-            <div style="flex:1"><strong>Quantity</strong></div>
-            <div style="flex:1"><strong>Total</strong></div>
-
-        </div>
-        <div class="cart-row">
-            <div style="flex:2"><img class="row-image" src="{%static 'images/placeholder.png'%}"></div>
-            <div style="flex:2">Product 1</div>
-            <div style="flex:1">200/=</div>
-            <div style="flex:1">
-                <p class="quantity">2</p>
-                <div class="quantity">
-                    <img src="{% static 'images/arrow-up.png'%}" class="chg-quantity">
-                    <img src="{% static 'images/arrow-down.png'%}" class="chg-quantity">
-
-
+            <div class="col-12">
+                <!-- Main Content -->
+                <div class="row">
+                    <div class="col-12 mt-3 text-center text-uppercase">
+                        <h2>Shopping Cart</h2>
+                    </div>
                 </div>
+
+                <main class="row">
+                    <div class="col-12 bg-white py-3 mb-3">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-8 col-sm-10 mx-auto table-responsive">
+                                <form class="row">
+                                    <div class="col-12">
+                                        <table class="table table-striped table-hover table-sm">
+                                            <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>Price</th>
+                                                <th>Qty</th>
+                                                <th>Amount</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for item in items %}
+                                            <tr>
+                                                <td>
+                                                    <img src="{{item.product.imageURL}}" class="img-fluid">
+                                                    {{item.product.name}}
+                                                </td>
+                                                <td>
+                                                    {{item.product.price}}
+                                                </td>
+                                                <td>
+                                                    <input type="number" min="1" value="{{item.quantity}}">
+                                                </td>
+                                                <td>
+                                                    ${{item.get_total}}
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-link text-danger"><i class="fas fa-times"></i></button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <th colspan="3" class="text-right">Total</th>
+                                                <th>${{order.get_cart_total}}</th>
+                                                <th></th>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="col-12 text-right">
+                                        <button class="btn btn-outline-secondary mr-3" type="submit">Update</button>
+                                        <a href="#" class="btn btn-outline-success">Checkout</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </main>
+                <!-- Main Content -->
             </div>
-            <div style="flex:1">400/=</div>
+
+
 
     </div>
+    {% endblock content %}
 
-</div>
-
-
-</div>
-{% endblock content %}
-
-</div>
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
