@@ -389,6 +389,12 @@ table td img {
         border-top-width: 1px !important;
     }
 
+.table_scroll{
+   overflow-y:scroll;
+   height:100px;
+   display:block;
+}
+
  @media (max-width: 576px) {
     .col-sm-6 {
         flex: 0 0 50% !important;
