@@ -78,11 +78,15 @@
       <option name="presentableId" value="Default" />
       <updated>1597038974147</updated>
       <workItem from="1597572834233" duration="4244000" />
+      <workItem from="1598086306148" duration="5369000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="141" y="187" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597575156965">
