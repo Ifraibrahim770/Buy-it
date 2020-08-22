@@ -7,6 +7,7 @@
       <change beforePath="$PROJECT_DIR$/buy_it_v1/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/static/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/buy_it_v1/store/templates/store/cart.html" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/store/templates/store/cart.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/buy_it_v1/store/templates/store/main.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/buy_it_v1/store/templates/store/store.html" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/store/templates/store/store.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,13 +101,12 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Images Functionality Added&#10;&#10;Product Category Model Added" />
