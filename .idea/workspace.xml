@@ -3,10 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="9e878544-68b6-4bf1-b341-917024303633" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/buy_it_v1/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/buy_it_v1/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/static/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/buy_it_v1/store/templates/store/cart.html" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/store/templates/store/cart.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/buy_it_v1/store/templates/store/main.html" beforeDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/buy_it_v1/buy_it_v1/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/buy_it_v1/settings.py" afterDir="false" />
+>>>>>>> Stashed changes
       <change beforePath="$PROJECT_DIR$/buy_it_v1/store/templates/store/store.html" beforeDir="false" afterPath="$PROJECT_DIR$/buy_it_v1/store/templates/store/store.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

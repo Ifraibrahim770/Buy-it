@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from .models import *
-
+from django.http import HttpResponse, JsonResponse
+import requests
+from requests.auth import HTTPBasicAuth
+import json
 
 # Create your views here.
 
@@ -49,3 +52,31 @@ def view(request, product_id):
                'category_options': category_options,
                'similar_products': similar_products}
     return render(request, 'store/view_product.html', context)
+
+
+def UpdateItem(request):
+    data = json.loads(request.body)
+    product_id = data['productID']
+    action = data['action']
+    print('productID', product_id)
+    print('action', data['action'])
+
+    customer=request.user.customer
+    product= Product.objects.get(id=product_id)
+    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
+    print('initial ',orderItem.quantity)
+
+    if action == 'add':
+        orderItem.quantity = orderItem.quantity + 1
+        print (orderItem.quantity)
+    elif action == 'remove':
+        orderItem.quantity = (orderItem.quantity - 1)
+
+    if orderItem.quantity <= 0:
+        orderItem.delete
+
+    orderItem.save()
+
+    return JsonResponse('Item was Added', safe=False)
+
