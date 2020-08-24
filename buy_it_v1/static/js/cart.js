@@ -38,7 +38,11 @@ body:JSON.stringify({'productID': productID, 'action':action})
 }).then((response)=>{
 return response.json()
 })
-.then((data)=>{console.log('data:',data)})
+.then((data)=>{console.log('data:',data)
+location.reload()
+console.log("Refreshed");
+
+})
 
  }
 

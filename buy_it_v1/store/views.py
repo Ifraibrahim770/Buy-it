@@ -1,19 +1,66 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import *
 from django.http import HttpResponse, JsonResponse
+from django.contrib.auth.forms import UserCreationForm
+from .forms import CreateUserForm,AuthenticateUserForm
 import requests
 from requests.auth import HTTPBasicAuth
 import json
+from django.contrib.auth import authenticate,login,logout
 
 # Create your views here.
 
+
+def sign_in(request):
+    form = AuthenticateUserForm()
+    context = {'form': form}
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            customer = Customer.objects.get_or_create(user=user)
+            customer.save()
+            login(request, user)
+            return redirect('store')
+        else:
+            return render(request, 'store/login.html', context)
+    #
+        #print(username, password)
+
+    return render(request, 'store/login.html', context)
+
+
+def sign_up(request):
+    form = CreateUserForm()
+    if request.method =='POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    context = {'form': form}
+    return render(request, 'store/register.html', context)
+
+
 def store(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
+    else:
+        items = []
+        order = {'get_cart_total':0, 'get_cart_items':0}
+        cartItems = order['get_cart_items']
     products = Product.objects.all()
     carousel_images = CarouselImages.objects.all()
     category_options = ProductCategory.objects.all()
+
     context = {'products': products,
                'carousel_images': carousel_images,
-               'category_options': category_options}
+               'category_options': category_options,
+               'cartItems':  cartItems}
     return render(request, 'store/store.html', context)
 
 
@@ -22,10 +69,12 @@ def cart(request):
         customer =request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items =order.orderitem_set.all()
+        cartItems = order.get_cart_items
     else:
         items = []
     context = {'items':items,
-               'order':order}
+               'order':order,
+               'cartItems':cartItems}
     return render(request, 'store/cart.html', context)
 
 
@@ -79,4 +128,7 @@ def UpdateItem(request):
     orderItem.save()
 
     return JsonResponse('Item was Added', safe=False)
+
+
+
 
