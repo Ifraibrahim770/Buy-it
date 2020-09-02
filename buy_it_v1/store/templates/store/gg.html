@@ -40,10 +40,14 @@
                             <div class="col-auto">
                                 <ul class="top-nav">
                                     <li>
-                                        <a href="{% url 'register' %}"><i class="fas fa-user-edit mr-2"></i>Register</a>
+                                        <a href="{% url 'register' %}"><i class="fas fa-user-edit mr-2"></i>{{user.username}}</a>
                                     </li>
                                     <li>
-                                        <a href="{% url 'login' %}"><i class="fas fa-sign-in-alt mr-2"></i>Login</a>
+                                      {% if request.user.is_authenticated %}
+                                        <a href="{% url 'logout' %}"><i class="fas fa-sign-in-alt mr-2"></i>Logout</a>
+                                        {% else %}
+                                         <a href="{% url 'login' %}"><i class="fas fa-sign-in-alt mr-2"></i>Login</a>
+                                        {% endif %}
                                     </li>
                                 </ul>
                             </div>
@@ -56,7 +60,7 @@
                         <div class="row">
                             <div class="col-lg-auto">
                                 <div class="site-logo text-center text-lg-left">
-                                    <a href="{% url 'store' %}">E-Commerce</a>
+                                    <a href="{% url 'store' %}">The Market Place</a>
                                 </div>
                             </div>
                             <div class="col-lg-5 mx-auto mt-4 mt-lg-0">
@@ -122,6 +126,17 @@
                  {% endblock content %}
                 <!-- Main Content -->
             </div>
+            {% for message in messages %}
+             <div class="message-holder">
+                <div class="alert alert-success alert-dismissible fade show"  style=" position: relative; padding: .75rem 1.25rem;  margin-bottom: 18rem; border: 1px solid transparent; border-radius: .25rem;" role="alert" >
+                <button type="button" class="close" data-dismiss="alert">
+                <small><i class="fas fa-times"></i></small>
+                </button>
+                <i class="fas fa-check-circle mr-2"></i>
+                <strong>{{message}}</strong>
+                </div>
+          </div>
+            {% endfor %}
 
             <div class="col-12 align-self-end">
                 <!-- Footer -->

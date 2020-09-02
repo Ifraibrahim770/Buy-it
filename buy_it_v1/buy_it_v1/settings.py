@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -25,20 +24,27 @@ SECRET_KEY = '$0f4=_aor-%hugor7+@kmy)5cc_6bxx&-%+=xd*b0-k$w+-t^!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['e06099cee330.ngrok.io', '127.0.0.1', 'localhost']
-
+ALLOWED_HOSTS = ['b75b72392250.ngrok.io', '127.0.0.1', 'localhost']
 
 # Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'django.contrib.sites',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'store.apps.StoreConfig',
-    'crispy_forms'
+    'crispy_forms',
+    'django_email_verification',
+    'social_django',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -51,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'buy_it_v1.urls'
@@ -66,13 +73,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',  # <--
+                'social_django.context_processors.login_redirect',  # <--
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'buy_it_v1.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -83,7 +91,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -103,7 +110,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -117,7 +123,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
@@ -125,8 +130,61 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
 
-    os.path.join(BASE_DIR, 'static' )
+    os.path.join(BASE_DIR, 'static')
 ]
 MEDIA_URL = '/images/'
-MEDIA_ROOT =os.path.join(BASE_DIR, 'static/images')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
+TEMPLATE_DIRS = [
+    os.path.join(BASE_DIR, 'store/templates/store'),
+]
+
+EMAIL_HOST ='64.233.184.108'
+EMAIL_HOST_USER = 'dibaibrahim8@gmail.com'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'dibaibrahim8@gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_PASSWORD ='context99'
+
+
+EMAIL_ACTIVE_FIELD = 'is_active'
+EMAIL_SERVER = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_ADDRESS = 'dibaibrahim8@gmail.com'
+EMAIL_PASSWORD = 'context99' # os.environ['password_key'] suggested
+EMAIL_MAIL_SUBJECT = 'Confirm your email'
+EMAIL_MAIL_HTML = 'mail_body.html'
+EMAIL_MAIL_PLAIN = 'mail_body.txt'
+EMAIL_PAGE_TEMPLATE = 'confirm_template.html'
+EMAIL_PAGE_DOMAIN = 'http://mydomain.com/'
+
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SITE_ID = 1
+
+SOCIAL_AUTH_FACEBOOK_KEY = '625419248353366'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = '08d2ebef6c7e0972bfb3f7231c89483d'
+
+LOGIN_REDIRECT_URL = '/'
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}

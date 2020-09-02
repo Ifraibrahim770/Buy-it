@@ -1,4 +1,9 @@
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import EmailMessage
 from django.shortcuts import render,redirect
+from django.urls import reverse
+from django.views import View
+
 from .models import *
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.forms import UserCreationForm
@@ -6,7 +11,16 @@ from .forms import CreateUserForm,AuthenticateUserForm
 import requests
 from requests.auth import HTTPBasicAuth
 import json
-from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth import authenticate,login,logout,get_user_model
+from django.contrib import messages
+from django.utils.encoding import *
+from django.utils.http import *
+from django.contrib.sites.shortcuts import *
+from .utils import token_generator
+
+import socket
+socket.getaddrinfo('127.0.0.1', 8000)
+from django_email_verification import sendConfirm
 
 # Create your views here.
 
@@ -18,16 +32,18 @@ def sign_in(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
+        print(user)
+        print(username, password)
 
         if user is not None:
             customer = Customer.objects.get_or_create(user=user)
-            customer.save()
             login(request, user)
             return redirect('store')
         else:
             return render(request, 'store/login.html', context)
     #
         #print(username, password)
+    print('DA USER IS ', request.user)
 
     return render(request, 'store/login.html', context)
 
@@ -37,7 +53,43 @@ def sign_up(request):
     if request.method =='POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            form.save()
+            username = request.POST.get('username')
+            email = request.POST.get('email')
+            password = request.POST.get('password1')
+
+            user = get_user_model().objects.create(username=username, email=email)
+            user.set_password(password)
+            user.is_active = False
+            user.save()
+            # print (form)
+            # print(email, password)
+            # form.save()
+            #user = get_user_model().objects.create(username=username, password=password, email=email)
+            # print('sending verification to email', email)
+            #sendConfirm(user)
+            # print('verification sent!!!!!')
+            #uidb64 = force_bytes(urlsafe_base64_encode(user.pk))
+            uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+            token = token_generator.make_token(user)
+
+            ts = datetime.datetime.now().timestamp()
+
+            domain = get_current_site(request).domain
+            cleaned_domain =domain[0: 21]
+            link = reverse('activate', kwargs={'uidb64': uidb64,'token': token_generator.make_token(user)})
+            activate_url =cleaned_domain+link
+            print(cleaned_domain)
+            email_subject = 'Activate Your Market Place Account'
+            email_body = 'Hi '+user.username+' Please use this link to verify your Market Place Account\n'+activate_url
+            email = EmailMessage(
+                 email_subject,
+                 email_body,
+                 'noreply@marketplace.com',
+                 [email],
+             )
+
+            email.send(fail_silently=False)
+            messages.success(request, 'Account was created Successfully!!')
             return redirect('login')
     context = {'form': form}
     return render(request, 'store/register.html', context)
@@ -45,7 +97,16 @@ def sign_up(request):
 
 def store(request):
     if request.user.is_authenticated:
-        customer = request.user.customer
+        print('the google user is',request.user)
+
+        try:
+            customer = request.user.customer
+        except ObjectDoesNotExist:
+            customer = Customer.objects.create(user=request.user, name=str(request.user))
+        else:
+            customer = request.user.customer
+
+        #customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
@@ -118,7 +179,7 @@ def UpdateItem(request):
 
     if action == 'add':
         orderItem.quantity = orderItem.quantity + 1
-        print (orderItem.quantity)
+        messages.success(request, 'Your product was added to the cart!!!' )
     elif action == 'remove':
         orderItem.quantity = (orderItem.quantity - 1)
 
@@ -128,6 +189,26 @@ def UpdateItem(request):
     orderItem.save()
 
     return JsonResponse('Item was Added', safe=False)
+
+
+def logout_request(request):
+    logout(request)
+    messages.info(request, "Logged out successfully!")
+    return redirect('login')
+
+
+class EmailVerification(View):
+    def get(self, request, uidb64, token):
+        #uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+        user_primary_key = urlsafe_base64_decode(uidb64)
+        cleaned_pk = user_primary_key.decode("utf-8")
+        print("this is the decoded primary key", cleaned_pk)
+
+        user = User.objects.get(pk=cleaned_pk)
+        user.is_active = True
+        user.save()
+        return redirect('login')
+
 
 
 
