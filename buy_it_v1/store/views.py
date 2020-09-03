@@ -222,3 +222,15 @@ def reset_password(request):
     context = {'form':form}
 
     return render(request, 'store/password_reset.html', context)
+
+
+def search(request):
+    if request.method == 'GET':
+        search_term = request.GET.get('search')
+        results = Product.objects.filter(name__icontains=search_term)
+
+        print(results)
+
+    context = {'results':results}
+
+    return render(request, 'store/search_results.html', context)
