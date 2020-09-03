@@ -11,7 +11,8 @@ urlpatterns=[
     path('register/', views.sign_up, name="register"),
     path ('login/', views.sign_in, name="login"),
     path('logout', views.logout_request, name='logout'),
-    path('activate/<uidb64>/<token>', EmailVerification.as_view(), name='activate')
+    path('activate/<uidb64>/<token>', EmailVerification.as_view(), name='activate'),
+    path('reset/', views.reset_password, name='reset')
     #path(r'^(?P<product_id>[0-9]+)/$', views.view, name="view_item")
 
 ]
