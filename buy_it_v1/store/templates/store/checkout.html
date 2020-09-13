@@ -12,15 +12,18 @@
 <body>
 {% block content %}
 <div class="row">
-<div class="col-lg-6">
-    <div class="box-element" id="form-wrapper">
+<div class="col-lg-4" style="margin-top: 20px; width:300px;">
+    <div style="box-shadow:hsl(0, 0%, 80%) 0 0 16px;
+	            background-color: #fff;
+	            border-radius: 4px;
+	            padding: 10px;"   class="box-element" id="form-wrapper">
         <form id="user_form">
             <div id="user_info">
                 <div class="form-field">
-							<input required class="form-control" type="text" name="name" placeholder="Name..">
+							<input required class="form-control" type="text" name="name" placeholder="Name.." style="margin-bottom: 10px; width:320px">
 						</div>
 						<div class="form-field">
-							<input required class="form-control" type="email" name="email" placeholder="Email..">
+							<input required class="form-control" type="email" name="email" placeholder="Email.." style="width:320px">
 						</div>
 
 
@@ -30,50 +33,61 @@
 						<p>Shipping Information:</p>
 						<hr>
 						<div class="form-field">
-							<input class="form-control" type="text" name="address" placeholder="Address..">
+							<input class="form-control" type="text" name="address" placeholder="Address.." style="margin-bottom: 10px; width:320px">
 						</div>
 						<div class="form-field">
-							<input class="form-control" type="text" name="city" placeholder="City..">
+							<input class="form-control" type="text" name="city" placeholder="City.." style="margin-bottom: 10px; width:320px">
 						</div>
 						<div class="form-field">
-							<input class="form-control" type="text" name="state" placeholder="State..">
+							<input class="form-control" type="text" name="state" placeholder="State.." style="margin-bottom: 10px; width:320px">
 						</div>
 						<div class="form-field">
-							<input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
+							<input class="form-control" type="text" name="zipcode" placeholder="Zip code.."style="width:320px">
 						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="country" placeholder="Zip code..">
-						</div>
+
 
 
             </div>
             <hr>
-            <input type="submit" value="Continue" id="form_button" class="btn-success btn-block">
+            <input type="submit" value="Continue" id="form_button" class="btn-outline-dark" style="width:320px">
 
 
         </form>
     </div>
     <br>
 
-    <div class="box-element hidden" id="payment_info ">
-        <small>Paypal Options</small>
-    </div>
-
 </div>
-<div class="col-lg-6">
-    <div class="box-element">
+<div class="col-lg-4" style="margin-top: 20px;">
+    <div class="box-element" style="box-shadow:hsl(0, 0%, 80%) 0 0 16px;
+	            background-color: #fff;
+	            border-radius: 4px;
+	            padding: 10px;">
         <a  class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
 	<hr>
         <h3>Order Summary</h3>
         <hr>
-        <div class="cart-row">
-					<div style="flex:2"><img class="row-image" src="{% static 'images/placeholder.png' %}"></div>
-					<div style="flex:2"><p>Product 1</p></div>
-					<div style="flex:1"><p>$20.00</p></div>
-					<div style="flex:1"><p>x2</p></div>
-        </div>
-        <h5>Items:   2</h5>
-        <h5>Total:   $4</h5>
+        <div style="overflow:hidden; overflow-y: scroll; height: 220px;">
+
+            {% for item in items %}
+                <div style="display: flex;
+                                             align-items: flex-stretch;
+                                             padding-bottom: 10px;
+                                             margin-bottom: 10px;
+                                             border-bottom: 1px solid #ececec;">
+                            <div style="flex:2"><img style="width: 100px;" src="{{item.product.imageURL}}"></div>
+                            <div style="flex:2"><p>{{item.product.name}}</p></div>
+                            <div style="flex:1"><p>${{item.product.price}}</p></div>
+                            <div style="flex:1"><p>x{{item.quantity}}</p></div>
+
+
+                </div>
+            {% endfor %}
+            </div>
+
+
+        <h5>Items:    {{order.get_cart_items}}</h5>
+        <h5>Total:   ${{order.get_cart_total}}</h5>
+
     </div>
 </div>
 

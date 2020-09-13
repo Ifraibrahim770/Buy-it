@@ -58,13 +58,34 @@
                                                     {{item.product.price}}
                                                 </td>
                                                 <td>
-                                                    <input type="number" min="1" data-product = "{{item.product.id}}"  data-action="add" class="update-cart" value="{{item.quantity}}">
+
+                                                    <p style="display: inline-block;
+	                                                          font-weight: 700;
+	                                                          padding-right:10px;">{{item.quantity}}</p>
+                                                    <div style="display: inline-block;
+	                                                            font-weight: 700;
+	                                                            padding-right:10px;">
+                                                        <img data-product="{{item.product.pk}}" data-action="add" class="update-cart" src="{% static 'images/arrow-up.png' %}" style="width: 12px;
+                                                                                                            cursor: pointer;
+                                                                                                            display: block;
+                                                                                                            margin-top: 5px;
+                                                                                                            transition:.1s;">
+
+
+                                                        <img class="update-cart" data-product="{{item.product.pk}}" data-action="remove" src="{% static 'images/arrow-down.png' %}" style="width: 12px;
+                                                                                                            cursor: pointer;
+                                                                                                            display: block;
+                                                                                                            margin-top: 5px;
+                                                                                                            transition:.1s;">
+
+                                                    </div>
+                                                   <!-- <input type="number" min="1" data-product = "{{item.product.id}}"  data-action="add" class="update-cart" value="{{item.quantity}}">-->
                                                 </td>
                                                 <td>
                                                     ${{item.get_total}}
                                                 </td>
                                                 <td>
-                                                    <button class="btn btn-link text-danger"><i class="fas fa-times"></i></button>
+                                                    <button data-product="{{item.product.pk}}" class=" update-cart btn btn-link text-danger" data-action="remove"> <i class="fas fa-times"></i></button>
                                                 </td>
                                             </tr>
                                             {% endfor %}
@@ -80,7 +101,7 @@
                                     </div>
                                     <div class="col-12 text-right">
                                         <button class="btn btn-outline-secondary mr-3" type="submit">Update</button>
-                                        <a href="#" class="btn btn-outline-success">Checkout</a>
+                                        <a href="{% url 'checkout'%}" class="btn btn-outline-success">Checkout</a>
                                     </div>
                                 </form>
                             </div>

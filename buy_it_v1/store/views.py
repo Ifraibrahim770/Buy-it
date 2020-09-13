@@ -61,7 +61,7 @@ def sign_up(request):
             email = request.POST.get('email')
             password = request.POST.get('password1')
             if email and User.objects.filter(email=email).exclude(username=username).exists():
-                messages.info(request, "that email is already registered")
+                messages.info(request, "that email is already registered",extra_tags="error")
 
             else:
                 user = get_user_model().objects.create(username=username, email=email)
@@ -104,7 +104,7 @@ def sign_up(request):
 
 def store(request):
     if request.user.is_authenticated:
-        print('the google user is', request.user)
+        #print('the google user is', request.user)
 
         try:
             customer = request.user.customer
@@ -147,7 +147,16 @@ def cart(request):
 
 
 def checkout(request):
-    context = {}
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
+    else:
+        items = []
+    context = {'items': items,
+               'order': order,
+               'cartItems': cartItems}
     return render(request, 'store/checkout.html', context)
 
 
@@ -162,7 +171,7 @@ def view(request, product_id):
     similar_products = Product.objects.filter(category=product_category)
     category_options = ProductCategory.objects.all()
 
-    # context99
+    # context
     context = {'product_info': product_info,
                'product_description': product_description,
                'product_images': product_images,
@@ -191,9 +200,9 @@ def UpdateItem(request):
         orderItem.quantity = (orderItem.quantity - 1)
 
     if orderItem.quantity <= 0:
-        orderItem.delete
-
-    orderItem.save()
+        orderItem.delete()
+    else:
+        orderItem.save()
 
     return JsonResponse('Item was Added', safe=False)
 
@@ -234,3 +243,5 @@ def search(request):
     context = {'results':results}
 
     return render(request, 'store/search_results.html', context)
+
+
