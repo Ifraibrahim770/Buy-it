@@ -10,8 +10,7 @@ class Customer(models.Model):
     name = models.CharField(max_length=100, null=True)
     email = models.CharField(max_length=100, null=True)
 
-    def __str__(self):
-        return self.name
+
 
 
 class ProductCategory (models.Model):
@@ -55,8 +54,7 @@ class Order(models.Model):
     complete = models.BooleanField(default=False, blank=False, null=True)
     transaction_id = models.CharField(null=True, blank=False, max_length=100)
 
-    def __str__(self):
-        return str(self.id)
+
 
     @property
     def get_cart_total(self):
@@ -92,7 +90,7 @@ class ShippingAddress(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.address)
+        return str(self.customer)
 
 
 class CarouselImages(models.Model):

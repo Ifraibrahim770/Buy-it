@@ -4,10 +4,11 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
 
+from .OrderProcessing import Processorder
 from .models import *
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.forms import UserCreationForm
-from .forms import CreateUserForm, AuthenticateUserForm,ResetPasswordForm
+from .forms import CreateUserForm, AuthenticateUserForm, ResetPasswordForm
 import requests
 from requests.auth import HTTPBasicAuth
 import json
@@ -17,6 +18,7 @@ from django.utils.encoding import *
 from django.utils.http import *
 from django.contrib.sites.shortcuts import *
 from .utils import token_generator
+from allauth.socialaccount.models import SocialAccount
 
 import socket
 
@@ -42,8 +44,8 @@ def sign_in(request):
             login(request, user)
             return redirect('store')
         else:
-            #if not user.is_active:
-                #messages.success(request, 'Error, please verify your email')
+            # if not user.is_active:
+            # messages.success(request, 'Error, please verify your email')
             return render(request, 'store/login.html', context)
     #
     # print(username, password)
@@ -61,7 +63,7 @@ def sign_up(request):
             email = request.POST.get('email')
             password = request.POST.get('password1')
             if email and User.objects.filter(email=email).exclude(username=username).exists():
-                messages.info(request, "that email is already registered",extra_tags="error")
+                messages.info(request, "that email is already registered", extra_tags="error")
 
             else:
                 user = get_user_model().objects.create(username=username, email=email)
@@ -104,7 +106,7 @@ def sign_up(request):
 
 def store(request):
     if request.user.is_authenticated:
-        #print('the google user is', request.user)
+        # print('the google user is', request.user)
 
         try:
             customer = request.user.customer
@@ -152,11 +154,61 @@ def checkout(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+
+        # test=' {"id": "3720852601356272", "email": "ibrahimdiba87@gmail.com", "name": "Ibrahim Diba", "first_name": "Ibrahim", "last_name": "Diba"},'
+        # json_data = json.loads(test)
+        # print('json_data',json_data)
+        if request.user.email == '':
+            extra_data = SocialAccount.objects.values_list('extra_data').get(user=request.user.pk)
+            object_string = str(extra_data)
+            non_bracket = object_string.replace("(", "")
+            non_other_bracket = non_bracket.replace(")", "")
+
+            valid_json = non_other_bracket.replace('\'', '"')
+            really_valid_json = valid_json[:-1]
+            print('extra', really_valid_json)
+            son_data = json.loads(really_valid_json)
+            print('json_data', son_data["email"])
+            mail = son_data["email"]
+            user = User.objects.get(username=request.user.username)
+            user.email = mail
+            user.save()
+        else:
+            mail = request.user.email
+
+        if ShippingAddress.objects.filter(customer=customer).exists():
+            shippingAddressExist = 'True'
+            address = ShippingAddress.objects.values_list('address', flat=True).last()
+            state = ShippingAddress.objects.values_list('state', flat=True).last()
+            city = ShippingAddress.objects.values_list('city', flat=True).last()
+
+            username = request.user.username
+            email = mail
+            disabled = 'disabled'
+
+            print("THESE ARE THE DETAILS FOR THE LOGGED IN USER", username, email)
+
+        else:
+            shippingAddressExist = 'False'
+            state = ''
+            address = ''
+            city = ''
+            username = request.user.username
+            email = mail
+            disabled = 'disabled'
+
     else:
         items = []
-    context = {'items': items,
+    context = {'name': username, 'email': email, 'items': items,
                'order': order,
-               'cartItems': cartItems}
+               'cartItems': cartItems,
+               'shippingAddressExist': shippingAddressExist,
+               'address': address,
+               'state': state,
+               'city': city,
+               'form_function': disabled}
+
+    print("this is my email value", email)
     return render(request, 'store/checkout.html', context)
 
 
@@ -228,7 +280,7 @@ class EmailVerification(View):
 
 def reset_password(request):
     form = ResetPasswordForm()
-    context = {'form':form}
+    context = {'form': form}
 
     return render(request, 'store/password_reset.html', context)
 
@@ -240,8 +292,60 @@ def search(request):
 
         print(results)
 
-    context = {'results':results}
+    context = {'results': results}
 
     return render(request, 'store/search_results.html', context)
 
 
+def saveShippingInfo(request):
+    if request.method == 'GET':
+        address = request.GET.get('address')
+        city = request.GET.get('city')
+        state = request.GET.get('state')
+
+        print("method entered", address)
+
+        customer = request.user.customer
+
+        if request.user.email == '':
+            email = request.GET.get('email')
+            user = User.objects.get(username=request.user.username)
+            user.email = email
+            user.save()
+
+        if ShippingAddress.objects.filter(customer=customer).exists():
+            shipping_info = ShippingAddress.objects.filter(customer=customer)
+            shipping_info.update(address=address)
+            shipping_info.update(city=city)
+            shipping_info.update(state=state)
+        else:
+            shipping_info = ShippingAddress.objects.create(customer=customer)
+            shipping_info.address = address
+            shipping_info.city = city
+            shipping_info.state = state
+
+            shipping_info.save()
+
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
+
+        print("tha needed info", address, state, city)
+
+        messages.info(request, "Shipping Info has been saved...")
+        Processorder(request)
+
+    context = {'items': items,
+               'order': order,
+               'cartItems': cartItems}
+    return render(request, 'store/checkout.html', context)
+
+
+def ProcessOrder(request):
+    transaction_id = datetime.datetime.now().timestamp()
+    customer = request.user.customer
+    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    order.transaction_id = transaction_id
+    order.complete = True
+    order.save()
+    return JsonResponse('Item was Added', safe=False)

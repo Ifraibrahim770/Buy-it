@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
+    'newstore'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -137,6 +138,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 TEMPLATE_DIRS = [
     os.path.join(BASE_DIR, 'store/templates/store'),
+    os.path.join(BASE_DIR, 'newstore/templates')
 ]
 
 EMAIL_HOST ='64.233.184.108'
@@ -158,6 +160,8 @@ EMAIL_MAIL_PLAIN = 'mail_body.txt'
 EMAIL_PAGE_TEMPLATE = 'confirm_template.html'
 EMAIL_PAGE_DOMAIN = 'http://mydomain.com/'
 
+ACCOUNT_EMAIL_REQUIRED = True
+
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -173,12 +177,37 @@ SITE_ID = 1
 
 SOCIAL_AUTH_FACEBOOK_KEY = '625419248353366'  # App ID
 SOCIAL_AUTH_FACEBOOK_SECRET = '08d2ebef6c7e0972bfb3f7231c89483d'
+SOCIAL_AUTH_FACEBOOK_SCOPE = [
+    'email',
+    'user_friends',
+    'friends_location',
+]
 
 LOGIN_REDIRECT_URL = '/'
 
 
 SOCIALACCOUNT_PROVIDERS = {
-    'google': {
+'facebook':
+       {'METHOD': 'oauth2',
+        'SCOPE': ['email','public_profile', 'user_friends'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+            'locale',
+            'timezone',
+            'link',
+            'gender',
+            'updated_time'],
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': lambda request: 'kr_KR',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v2.4'},
+        'google': {
         'SCOPE': [
             'profile',
             'email',
@@ -187,4 +216,5 @@ SOCIALACCOUNT_PROVIDERS = {
             'access_type': 'online',
         }
     }
+
 }

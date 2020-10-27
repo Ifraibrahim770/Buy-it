@@ -15,6 +15,7 @@ urlpatterns=[
     path('reset/', views.reset_password, name='reset'),
     path('search/', views.search, name='search'),
     path('search/<int:product_id>', views.view, name="view_item"),
-    #path(r'^(?P<product_id>[0-9]+)/$', views.view, name="view_item")
+    path('saveInfo/', views.saveShippingInfo, name="save_info"),
+    path('ProcessOrder/', views.ProcessOrder, name="process_order")
 
 ]
