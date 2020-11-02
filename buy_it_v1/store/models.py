@@ -10,10 +10,12 @@ class Customer(models.Model):
     name = models.CharField(max_length=100, null=True)
     email = models.CharField(max_length=100, null=True)
 
+    def __str__(self):
+        return str(self.name)
 
 
 
-class ProductCategory (models.Model):
+class ProductCategory(models.Model):
     categoryName = models.CharField(max_length=200, null=False)
 
     def __str__(self):
@@ -36,7 +38,7 @@ class Product(models.Model):
             url = self.image.url
 
         except:
-            url =''
+            url = ''
         return url
 
 
@@ -53,8 +55,6 @@ class Order(models.Model):
     date_ordered = models.DateTimeField(auto_now_add=True, blank=False)
     complete = models.BooleanField(default=False, blank=False, null=True)
     transaction_id = models.CharField(null=True, blank=False, max_length=100)
-
-
 
     @property
     def get_cart_total(self):
@@ -105,7 +105,12 @@ class ProductImage(models.Model):
         return str(self.product.name)
 
 
+class ProductReview(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    stars = models.IntegerField(default=0, null=True, blank=True)
+    review = models.CharField(max_length=2000, null=False)
+    date_added = models.DateTimeField(auto_now_add=True)
 
-
-
-
+    def __str__(self):
+        return str(self.customer)

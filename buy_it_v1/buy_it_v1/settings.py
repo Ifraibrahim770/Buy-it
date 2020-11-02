@@ -24,7 +24,7 @@ SECRET_KEY = '$0f4=_aor-%hugor7+@kmy)5cc_6bxx&-%+=xd*b0-k$w+-t^!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['b75b72392250.ngrok.io', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['1971abb0c6ed.ngrok.io', '127.0.0.1', 'localhost']
 
 # Application definition
 
@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
-    'newstore'
+    'newstore',
+    'rest_framework',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -161,6 +162,7 @@ EMAIL_PAGE_TEMPLATE = 'confirm_template.html'
 EMAIL_PAGE_DOMAIN = 'http://mydomain.com/'
 
 ACCOUNT_EMAIL_REQUIRED = True
+
 
 
 AUTHENTICATION_BACKENDS = (

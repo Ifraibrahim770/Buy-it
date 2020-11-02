@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('store.urls')),
     path('accounts/', include('allauth.urls')),
     path('email/', include(mail_urls)),
+    path('api-auth/', include('rest_framework.urls'))
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

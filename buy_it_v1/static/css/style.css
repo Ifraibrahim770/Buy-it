@@ -420,4 +420,12 @@ input.button-add {
     vertical-align: middle; /* align the text vertically centered */
 }
 
+@media screen and (max-width: 600px) {
+  .main_menu {
+    visibility: hidden;
+    clear: both;
+    display: none;
+  }
+}
+
 }
