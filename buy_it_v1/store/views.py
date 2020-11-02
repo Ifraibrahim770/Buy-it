@@ -3,6 +3,8 @@ from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 from .OrderProcessing import Processorder
 from .models import *
@@ -19,6 +21,7 @@ from django.utils.http import *
 from django.contrib.sites.shortcuts import *
 from .utils import token_generator
 from allauth.socialaccount.models import SocialAccount
+from .serializers import ProductSerializer
 
 import socket
 
@@ -217,14 +220,22 @@ def view(request, product_id):
     product_info = Product.objects.filter(id=product_id)
     product_description = ProductDescription.objects.filter(product=product_id)
     product_images = ProductImage.objects.filter(product=product_id)
+    order, created = Order.objects.get_or_create(customer=request.user.customer, complete=False)
+    cartItems = order.get_cart_items
+
+    product_reviews = ProductReview.objects.filter(product=product_id)
 
     # similar_products
     product_category = Product.objects.values_list('category', flat=True).get(pk=product_id)
     similar_products = Product.objects.filter(category=product_category)
     category_options = ProductCategory.objects.all()
 
+
     # context
     context = {'product_info': product_info,
+               'product_reviews':product_reviews,
+               'product_id': product_id,
+               'cartItems': cartItems,
                'product_description': product_description,
                'product_images': product_images,
                'category_options': category_options,
@@ -332,13 +343,13 @@ def saveShippingInfo(request):
 
         print("tha needed info", address, state, city)
 
-        messages.info(request, "Shipping Info has been saved...")
+        messages.info(request, "Your Order is Processed!!! Pending Confirmation...")
         Processorder(request)
 
     context = {'items': items,
                'order': order,
                'cartItems': cartItems}
-    return render(request, 'store/checkout.html', context)
+    return redirect('store')
 
 
 def ProcessOrder(request):
@@ -349,3 +360,41 @@ def ProcessOrder(request):
     order.complete = True
     order.save()
     return JsonResponse('Item was Added', safe=False)
+
+
+def saveReview(request):
+    if request.method == 'GET':
+        star = request.GET.get('rating')
+        comment = request.GET.get('comment')
+        customer = request.user.customer
+        product_id = request.GET.get('product_id')
+        print("productid",product_id)
+        product = Product.objects.get(id=product_id)
+
+        Review = ProductReview.objects.create(customer=customer, product=product)
+        Review.stars = star
+        Review.review = comment
+        Review.save()
+
+        print('Your shit has been saved!!!')
+
+
+
+
+    return render(request, 'store/search_results.html')
+
+
+#API REQUESTS
+@api_view(['GET'])
+def ProductApi(request):
+    products = Product.objects.all()
+
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def ProductApiDetail(request,pk):
+    products = Product.objects.get(id=pk)
+
+    serializer = ProductSerializer(products, many=False)
+    return Response(serializer.data)

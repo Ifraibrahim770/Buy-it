@@ -93,7 +93,7 @@
                                             $2,800
                                         </span>
                                         </div>
-                                        {% endfor %}
+
                                         <div class="col-xl-5 col-md-9 col-sm-3 col-5 mx-auto mt-3">
                                             <div class="form-group">
                                                 <label for="qty">Quantity</label>
@@ -101,11 +101,12 @@
                                             </div>
                                         </div>
                                         <div class="col-12 mt-3">
-                                            <button class="btn btn-outline-dark" type="button"><i class="fas fa-cart-plus mr-2"></i>Add to cart</button>
+                                            <button data-product="{{product.id}}" data-action="add" class="btn btn-outline-dark update-cart" type="button"><i class="fas fa-cart-plus mr-2"></i>Add to cart</button>
                                         </div>
                                         <div class="col-12 mt-3">
                                             <button class="btn btn-outline-secondary btn-sm" type="button"><i class="fas fa-heart mr-2"></i>Add to wishlist</button>
                                         </div>
+                                          {% endfor %}
                                     </div>
                                 </div>
                             </div>
@@ -250,13 +251,20 @@
 
                                     <!-- Add Review -->
                                     <div class="row">
+
                                         <div class="col-12">
-                                            <h4>Add Review</h4>
+                                            <h4>Add Your Review</h4>
                                         </div>
+
+
                                         <div class="col-12">
-                                            <form>
+                                            {% for product in product_info %}
+                                            <form action="{% url 'saveReview'%}" method="get">
                                                 <div class="form-group">
-                                                    <textarea class="form-control" placeholder="Give your review"></textarea>
+                                                    <textarea class="form-control" name="comment" placeholder="Give your review"></textarea>
+                                                </div>
+                                                <div hidden class="form-group">
+                                                  <input class="form-control" name="product_id" value = "{{product_id}}" placeholder="Give your review">
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="d-flex ratings justify-content-end flex-row-reverse">
@@ -276,6 +284,8 @@
                                                     <button class="btn btn-outline-dark">Add Review</button>
                                                 </div>
                                             </form>
+                                            {% endfor %}
+
                                         </div>
                                     </div>
                                     <!-- Add Review -->
@@ -291,10 +301,11 @@
                                         <div class="col-12">
 
                                             <!-- Comments -->
+                                              {% for reviews in product_reviews %}
                                             <div class="col-12 text-justify py-2 mb-3 bg-gray">
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <strong class="mr-2">Steve Rogers</strong>
+                                                        <strong class="mr-2">{{reviews.customer}}</strong>
                                                         <small>
                                                             <i class="fas fa-star"></i>
                                                             <i class="fas fa-star"></i>
@@ -304,47 +315,19 @@
                                                         </small>
                                                     </div>
                                                     <div class="col-12">
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut ullamcorper quam, non congue odio.
-                                                        <br>
-                                                        Fusce ligula augue, faucibus sed neque non, auctor rhoncus enim. Sed nec molestie turpis. Nullam accumsan porttitor rutrum. Curabitur eleifend venenatis volutpat.
-                                                        <br>
-                                                        Aenean faucibus posuere vehicula.
+                                                       {{reviews.review}}
                                                     </div>
                                                     <div class="col-12">
                                                         <small>
-                                                            <i class="fas fa-clock mr-2"></i>5 hours ago
+                                                            <i class="fas fa-clock mr-2"></i>{{reviews.date_added}}
+
                                                         </small>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {% endfor %}
                                             <!-- Comments -->
 
-                                            <!-- Comments -->
-                                            <div class="col-12 text-justify py-2 mb-3 bg-gray">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <strong class="mr-2">Bucky Barns</strong>
-                                                        <small>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="far fa-star"></i>
-                                                            <i class="far fa-star"></i>
-                                                            <i class="far fa-star"></i>
-                                                        </small>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut ullamcorper quam, non congue odio.
-                                                        <br>
-                                                        Aenean faucibus posuere vehicula.
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <small>
-                                                            <i class="fas fa-clock mr-2"></i>5 hours ago
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Comments -->
 
                                         </div>
                                     </div>
@@ -408,6 +391,10 @@
                 <!-- Main Content -->
             </div>
 {% endblock content %}
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
 
 
 </body>

@@ -16,6 +16,9 @@ urlpatterns=[
     path('search/', views.search, name='search'),
     path('search/<int:product_id>', views.view, name="view_item"),
     path('saveInfo/', views.saveShippingInfo, name="save_info"),
-    path('ProcessOrder/', views.ProcessOrder, name="process_order")
+    path('ProcessOrder/', views.ProcessOrder, name="process_order"),
+    path('product-view/', views.ProductApi, name="product-view"),
+    path('product-detail/<int:pk>', views.ProductApiDetail, name="product-detail-view"),
+    path('saveReview', views.saveReview, name="saveReview")
 
 ]

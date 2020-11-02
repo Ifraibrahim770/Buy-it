@@ -11,6 +11,7 @@ admin.site.register(CarouselImages)
 admin.site.register(ProductDescription)
 admin.site.register(ProductImage)
 admin.site.register(ProductCategory)
+admin.site.register(ProductReview)
 
 
 
