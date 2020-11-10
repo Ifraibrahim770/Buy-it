@@ -12,101 +12,108 @@
 <body>
 {% block content %}
 <div class="row">
-<div class="col-lg-4" style="margin-top: 20px; width:300px;">
+<div class="col-lg-4 col-sm-12 col-md-12" style="margin-top: 20px; max-width:500px;">
     <div style="box-shadow:hsl(0, 0%, 80%) 0 0 16px;
 	            background-color: #fff;
 	            border-radius: 4px;
-	            padding: 10px;"   class="box-element" id="form-wrapper">
-        <form id="user_form" action="{% url 'save_info'%}" method="get">
-            <div id="user_info">
-                <div class="form-field">
-							<input required class="form-control" type="text" name="name" placeholder="Name.." style="margin-bottom: 10px; width:320px" value="{{name}}" disabled>
-						</div>
-						<div class="form-field">
-							<input required class="form-control" type="email" name="email" placeholder="Email.." style="width:320px"value="{{email}}" disabled>
-						</div>
+	            padding: 10px;" class="box-element" id="form-wrapper">
+            <form id="user_form" action="{% url 'save_info'%}" method="get">
+                <div id="user_info">
+                    <div class="form-field">
+                        <input required class="form-control" type="text" name="name" placeholder="Name.."
+                               style="margin-bottom: 10px; width: 100%" value="{{name}}" disabled>
+                    </div>
+                    <div class="form-field">
+                        <input required class="form-control" type="email" name="email" placeholder="Email.."
+                               style="width: 100%" value="{{email}}" disabled>
+                    </div>
 
 
-            </div>
-            <div id="shipping_info">
+                </div>
+                <div id="shipping_info">
+                    <hr>
+                    <p>Shipping Information:</p>
+                    <hr>
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="address" placeholder="Address.."
+                               style="margin-bottom: 10px; width: 100% " value="{{address}}">
+                    </div>
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="city" placeholder="City.."
+                               style="margin-bottom: 10px; width: 100%" value="{{city}}">
+                    </div>
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="state" placeholder="State.."
+                               style="margin-bottom: 10px; width: 100%" value="{{state}}">
+                    </div>
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="zipcode" placeholder="Zip code.." value="101000"
+                        style=" width: 100%">
+                    </div>
+
+
+                </div>
                 <hr>
-						<p>Shipping Information:</p>
-						<hr>
-						<div class="form-field">
-							<input class="form-control" type="text" name="address" placeholder="Address.." style="margin-bottom: 10px; width:320px" value="{{address}}">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="city" placeholder="City.." style="margin-bottom: 10px; width:320px" value="{{city}}">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="state" placeholder="State.." style="margin-bottom: 10px; width:320px" value="{{state}}">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="zipcode" placeholder="Zip code.."style="width:320px" value="101000">
-						</div>
+                <input type="submit" value="Continue" id="form_button" class="btn btn-outline-dark"
+                       style="width: 100%">
 
 
+            </form>
+        </div>
+        <br>
 
-            </div>
-            <hr>
-            <input type="submit" value="Continue" id="form_button" class="btn-outline-dark" style="width:320px">
-
-
-        </form>
     </div>
-    <br>
-
-</div>
-<div class="col-lg-4" style="margin-top: 20px;">
-    <div class="box-element" style="box-shadow:hsl(0, 0%, 80%) 0 0 16px;
+    <div class="col-lg-4" style="margin-top: 20px;">
+        <div class="box-element" style="box-shadow:hsl(0, 0%, 80%) 0 0 16px;
 	            background-color: #fff;
 	            border-radius: 4px;
 	            padding: 10px;">
-        <a  class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
-	<hr>
-        <h3>Order Summary</h3>
-        <hr>
-        <div style="overflow:hidden; overflow-y: scroll; height: 220px;">
+            <a class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
+            <hr>
+            <h3>Order Summary</h3>
+            <hr>
+            <div style="overflow:hidden; overflow-y: scroll; height: 220px;">
 
-            {% for item in items %}
+                {% for item in items %}
                 <div style="display: flex;
                                              align-items: flex-stretch;
                                              padding-bottom: 10px;
                                              margin-bottom: 10px;
                                              border-bottom: 1px solid #ececec;">
-                            <div style="flex:2"><img style="width: 100px;" src="{{item.product.imageURL}}"></div>
-                            <div style="flex:2"><p>{{item.product.name}}</p></div>
-                            <div style="flex:1"><p>${{item.product.price}}</p></div>
-                            <div style="flex:1"><p>x{{item.quantity}}</p></div>
+                    <div style="flex:2"><img style="width: 100px;" src="{{item.product.imageURL}}"></div>
+                    <div style="flex:2"><p>{{item.product.name}}</p></div>
+                    <div style="flex:1"><p>${{item.product.price}}</p></div>
+                    <div style="flex:1"><p>x{{item.quantity}}</p></div>
 
 
                 </div>
-            {% endfor %}
+                {% endfor %}
             </div>
 
 
-        <h5>Items:    {{order.get_cart_items}}</h5>
-        <h5>Total:   ${{order.get_cart_total}}</h5>
+            <h5>Items: {{order.get_cart_items}}</h5>
+            <h5>Total: ${{order.get_cart_total}}</h5>
 
+        </div>
     </div>
+
 </div>
-
-    </div>
 {% endblock content %}
 
 <script>
     var url = '/ProcessOrder/'
-    fetch (url, {
-    method:'POST', headers:{
-    'Content-Type':'application/json',
-    'X-CSRFToken':csrftoken
-    },
-    body:JSON.stringify({'productID': productID, 'action':action})
-    }).then((response)=>{
-    return response.json()
+    fetch(url, {
+        method: 'POST', headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify({'productID': productID, 'action': action})
+    }).then((response) => {
+        return response.json()
     })
-    .then((data)=>{console.log('data:',data)
-    })
+        .then((data) => {
+            console.log('data:', data)
+        })
 </script>
 </body>
 </html>
