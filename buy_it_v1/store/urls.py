@@ -19,6 +19,7 @@ urlpatterns=[
     path('ProcessOrder/', views.ProcessOrder, name="process_order"),
     path('product-view/', views.ProductApi, name="product-view"),
     path('product-detail/<int:pk>', views.ProductApiDetail, name="product-detail-view"),
-    path('saveReview', views.saveReview, name="saveReview")
+    path('saveReview', views.saveReview, name="saveReview"),
+    path('verifyPhoneNumber/', views.verifyPhoneNumber, name="verifyPhoneNumber")
 
 ]

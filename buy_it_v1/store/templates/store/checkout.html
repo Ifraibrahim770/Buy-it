@@ -18,6 +18,7 @@
 	            border-radius: 4px;
 	            padding: 10px;" class="box-element" id="form-wrapper">
             <form id="user_form" action="{% url 'save_info'%}" method="get">
+                 {% csrf_token %}
                 <div id="user_info">
                     <div class="form-field">
                         <input required class="form-control" type="text" name="name" placeholder="Name.."

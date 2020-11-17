@@ -10,7 +10,7 @@ from .OrderProcessing import Processorder
 from .models import *
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.forms import UserCreationForm
-from .forms import CreateUserForm, AuthenticateUserForm, ResetPasswordForm
+from .forms import CreateUserForm, AuthenticateUserForm, ResetPasswordForm, PhoneForm, VerifyForm
 import requests
 from requests.auth import HTTPBasicAuth
 import json
@@ -230,10 +230,9 @@ def view(request, product_id):
     similar_products = Product.objects.filter(category=product_category)
     category_options = ProductCategory.objects.all()
 
-
     # context
     context = {'product_info': product_info,
-               'product_reviews':product_reviews,
+               'product_reviews': product_reviews,
                'product_id': product_id,
                'cartItems': cartItems,
                'product_description': product_description,
@@ -368,7 +367,7 @@ def saveReview(request):
         comment = request.GET.get('comment')
         customer = request.user.customer
         product_id = request.GET.get('product_id')
-        print("productid",product_id)
+        print("productid", product_id)
         product = Product.objects.get(id=product_id)
 
         Review = ProductReview.objects.create(customer=customer, product=product)
@@ -378,13 +377,19 @@ def saveReview(request):
 
         print('Your shit has been saved!!!')
 
-
-
-
     return render(request, 'store/search_results.html')
 
 
-#API REQUESTS
+def verifyPhoneNumber(request):
+    phone_form = PhoneForm()
+    code_form = VerifyForm()
+    context = {'phone_form': phone_form,
+               'code_form': code_form}
+
+    return render(request, 'store/verifyPhoneNumber.html',context)
+
+
+# API REQUESTS
 @api_view(['GET'])
 def ProductApi(request):
     products = Product.objects.all()
@@ -392,8 +397,9 @@ def ProductApi(request):
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
 
+
 @api_view(['GET'])
-def ProductApiDetail(request,pk):
+def ProductApiDetail(request, pk):
     products = Product.objects.get(id=pk)
 
     serializer = ProductSerializer(products, many=False)
