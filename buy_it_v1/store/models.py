@@ -14,7 +14,6 @@ class Customer(models.Model):
         return str(self.name)
 
 
-
 class ProductCategory(models.Model):
     categoryName = models.CharField(max_length=200, null=False)
 
@@ -114,3 +113,21 @@ class ProductReview(models.Model):
 
     def __str__(self):
         return str(self.customer)
+
+
+class MobileVerification(models.Model):
+    phone_no = models.CharField(max_length=2000, null=True)
+    verification_code = models.CharField(max_length=2000, null=True)
+    count = models.IntegerField(default=0, null=True)
+
+    def __str__(self):
+        return str(self.phone_no)
+
+
+class UserPhoneNumbers(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
+    phone_no = models.CharField(max_length=2000, null=True)
+    verified = models.BooleanField(default=False, blank=False, null=True)
+
+    def __str__(self):
+        return str(self.phone_no)

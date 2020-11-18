@@ -1,3 +1,5 @@
+import random
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect
@@ -385,8 +387,95 @@ def verifyPhoneNumber(request):
     code_form = VerifyForm()
     context = {'phone_form': phone_form,
                'code_form': code_form}
+    if request.method == 'POST':
+        phone_number = request.POST.get('your_number')
+        if phone_number:
+            print('the number is this', phone_number)
+            phone = str(phone_number)
+            user = UserPhoneNumbers.objects.filter(phone_no=phone)
+            if user.exists():
+                return JsonResponse('Phone Number Already exist', safe=False)
+            else:
+                key = sendotp(phone)
+                final_message = 'Your MarketPlace Verification Code is ' + str(key)
+                request.session['otp_phone'] = phone
+                non_zero_phone = phone[1:]
+                cleaned_phone = '+254' + non_zero_phone
+                print('cleaned_phone', cleaned_phone)
+                #link = 'https://sms.movesms.co.ke/api/compose?username=ifraibrahim60&api_key=qnN5mHUutVRZ5LvYXD8hK1VpJvRyWL4clCRgrHEyGvJW8pFePK&sender=SMARTLINK&to=[Your+Recipients]&message=[Your message]&msgtype=5&dlr=1'
+                # link = link.replace('[Your+Recipients]', cleaned_phone)
+                # link = link.replace('[Your message]', str(key))
+                # print("the final link is", link)
+                #
+                # response = requests.post(link)
+                # print(response.text)
 
-    return render(request, 'store/verifyPhoneNumber.html',context)
+                sendSMS(cleaned_phone, key)
+            if key:
+                old = MobileVerification.objects.filter(phone_no=phone)
+                if old.exists():
+                    old = old.first()
+                    count = old.count
+
+                    if count > 5:
+                        print("Otp limit exceeded")
+                        return
+                    old.count = count + 1
+                    old.save()
+
+                MobileVerification.objects.create(
+                    phone_no=phone,
+                    verification_code=key
+
+                )
+                print("the generated key_value is", key)
+            else:
+                return JsonResponse('Error Generating OTP', safe=False)
+
+        else:
+            verification_code = request.POST.get('verification_code')
+            phoneNo = request.session['otp_phone']
+
+            if int(phoneNo) & int(verification_code):
+                old = MobileVerification.objects.filter(phone_no=phoneNo)
+                if old.exists():
+                    old = old.first()
+                    otp = old.verification_code
+
+                    if str(verification_code) == str(otp):
+                        customer = request.user.customer
+                        UserPhoneNumbers.objects.create(
+                            customer=customer,
+                            phone_no=phoneNo,
+                            verified=True
+                        )
+                    else:
+                        print("OTP is invalid try again...or else")
+
+    return render(request, 'store/verifyPhoneNumber.html', context)
+
+
+def sendotp(phone_number):
+    if phone_number:
+        key = random.randint(999, 9999)
+        return key
+    else:
+        return False
+
+
+def sendSMS(phone_number,code):
+    url = "https://twilio-sms.p.rapidapi.com/2010-04-01/Accounts/undefined/Messages.json"
+
+    querystring = {"from": "7765", "body": code, "to": phone_number}
+
+    headers = {
+        'x-rapidapi-key': "511e5b32d9msh770fba0b2915986p182943jsn6ece95b62232",
+        'x-rapidapi-host': "twilio-sms.p.rapidapi.com"
+    }
+
+    response = requests.request("POST", url, headers=headers, params=querystring)
+
+    print(response.text)
 
 
 # API REQUESTS
