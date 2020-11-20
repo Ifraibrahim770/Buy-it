@@ -38,8 +38,8 @@
                         <div class="list-group" style="margin-top:15px; margin-bottom:15px">
 
                             {% for category in category_options %}
-                          <a class="nav-link list-group-item" style = "padding: .50rem 1.25rem; color:	#696969" href="#" id="{{category.pk}}" data-toggle="dropdown" aria-haspopup="true"
-                                               aria-expanded="false" style="padding: .50rem 1.25rem;";><strong>{{category.categoryName}}</strong></a>
+                          <a class="nav-link list-group-item" style = "padding: .50rem 1.25rem; color:	#696969" href="{{category.categoryName}}" id="{{category.pk}}"
+                                               aria-expanded="false"><strong>{{category.categoryName}}</strong></a>
 
                             {% endfor %}
                         </div>

@@ -402,7 +402,7 @@ def verifyPhoneNumber(request):
                 non_zero_phone = phone[1:]
                 cleaned_phone = '+254' + non_zero_phone
                 print('cleaned_phone', cleaned_phone)
-                #link = 'https://sms.movesms.co.ke/api/compose?username=ifraibrahim60&api_key=qnN5mHUutVRZ5LvYXD8hK1VpJvRyWL4clCRgrHEyGvJW8pFePK&sender=SMARTLINK&to=[Your+Recipients]&message=[Your message]&msgtype=5&dlr=1'
+                # link = 'https://sms.movesms.co.ke/api/compose?username=ifraibrahim60&api_key=qnN5mHUutVRZ5LvYXD8hK1VpJvRyWL4clCRgrHEyGvJW8pFePK&sender=SMARTLINK&to=[Your+Recipients]&message=[Your message]&msgtype=5&dlr=1'
                 # link = link.replace('[Your+Recipients]', cleaned_phone)
                 # link = link.replace('[Your message]', str(key))
                 # print("the final link is", link)
@@ -463,7 +463,7 @@ def sendotp(phone_number):
         return False
 
 
-def sendSMS(phone_number,code):
+def sendSMS(phone_number, code):
     url = "https://twilio-sms.p.rapidapi.com/2010-04-01/Accounts/undefined/Messages.json"
 
     querystring = {"from": "7765", "body": code, "to": phone_number}
@@ -476,6 +476,19 @@ def sendSMS(phone_number,code):
     response = requests.request("POST", url, headers=headers, params=querystring)
 
     print(response.text)
+
+
+def Categories(request, category_name):
+    print(category_name)
+
+    cat = ProductCategory.objects.get(categoryName=category_name)
+
+    print(cat.id)
+    results = Product.objects.filter(category=cat.id)
+
+    context = {'results': results,
+               'category_name': category_name}
+    return render(request, 'store/ProductCategory.html',context)
 
 
 # API REQUESTS

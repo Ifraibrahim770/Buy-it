@@ -20,6 +20,7 @@ urlpatterns=[
     path('product-view/', views.ProductApi, name="product-view"),
     path('product-detail/<int:pk>', views.ProductApiDetail, name="product-detail-view"),
     path('saveReview', views.saveReview, name="saveReview"),
-    path('verifyPhoneNumber/', views.verifyPhoneNumber, name="verifyPhoneNumber")
+    path('verifyPhoneNumber/', views.verifyPhoneNumber, name="verifyPhoneNumber"),
+    path('<str:category_name>', views.Categories, name="view_categories")
 
 ]
