@@ -3,7 +3,8 @@ from . import views
 from .views import EmailVerification
 
 urlpatterns=[
-    path('', views.store, name="store"),
+    path('/store', views.store, name="store"),
+    path('', views.Stalls, name="stalls"),
     path('cart/', views.cart, name="cart"),
     path('checkout/', views.checkout, name="checkout"),
     path('<int:product_id>', views.view, name="view_item"),

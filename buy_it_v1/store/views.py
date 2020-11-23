@@ -506,7 +506,12 @@ def isProductPurchased(request, product_id):
         if order_items.exists():
             return True
         else:
-           return False
+            return False
+
+
+def Stalls(request):
+    return render(request, 'store/Stalls.html')
+
 
 # API REQUESTS
 @api_view(['GET'])
