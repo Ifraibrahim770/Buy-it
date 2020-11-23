@@ -369,15 +369,18 @@ def saveReview(request):
         comment = request.GET.get('comment')
         customer = request.user.customer
         product_id = request.GET.get('product_id')
-        print("productid", product_id)
-        product = Product.objects.get(id=product_id)
 
-        Review = ProductReview.objects.create(customer=customer, product=product)
-        Review.stars = star
-        Review.review = comment
-        Review.save()
+        # order_items = OrderItem.objects.filter(order=orders, product=product_id)
 
-        print('Your shit has been saved!!!')
+        if isProductPurchased(request, product_id):
+            product = Product.objects.get(id=product_id)
+            Review = ProductReview.objects.create(customer=customer, product=product)
+            Review.stars = star
+            Review.review = comment
+            Review.save()
+            print('Your shit has been saved!!!')
+        else:
+            print('You cant review a product you havent purchased')
 
     return render(request, 'store/search_results.html')
 
@@ -400,17 +403,18 @@ def verifyPhoneNumber(request):
                 final_message = 'Your MarketPlace Verification Code is ' + str(key)
                 request.session['otp_phone'] = phone
                 non_zero_phone = phone[1:]
-                cleaned_phone = '+254' + non_zero_phone
+                cleaned_phone = '254' + non_zero_phone
                 print('cleaned_phone', cleaned_phone)
-                # link = 'https://sms.movesms.co.ke/api/compose?username=ifraibrahim60&api_key=qnN5mHUutVRZ5LvYXD8hK1VpJvRyWL4clCRgrHEyGvJW8pFePK&sender=SMARTLINK&to=[Your+Recipients]&message=[Your message]&msgtype=5&dlr=1'
-                # link = link.replace('[Your+Recipients]', cleaned_phone)
-                # link = link.replace('[Your message]', str(key))
-                # print("the final link is", link)
-                #
-                # response = requests.post(link)
-                # print(response.text)
+                link = 'http://bauersms.co.ke/adminx/api.php?apikey=5SWegOcd6oQWhad2&apitext=[Your message]&tel=[Your+Recipients]&method=sendsms'
+                link = link.replace('[Your+Recipients]', cleaned_phone)
+                link = link.replace('[Your message]', str(key))
+                print("the final link is", link)
 
-                sendSMS(cleaned_phone, key)
+                response = requests.post(link)
+                print(response.text)
+
+                # sendSMS(cleaned_phone, key)
+                messages.info(request, "Code Sent, Kindly Check Your Phone")
             if key:
                 old = MobileVerification.objects.filter(phone_no=phone)
                 if old.exists():
@@ -449,6 +453,8 @@ def verifyPhoneNumber(request):
                             phone_no=phoneNo,
                             verified=True
                         )
+                        messages.info(request, "Verification Successful!!!")
+                        return redirect('store')
                     else:
                         print("OTP is invalid try again...or else")
 
@@ -488,8 +494,19 @@ def Categories(request, category_name):
 
     context = {'results': results,
                'category_name': category_name}
-    return render(request, 'store/ProductCategory.html',context)
+    return render(request, 'store/ProductCategory.html', context)
 
+
+def isProductPurchased(request, product_id):
+    customer = request.user.customer
+    orders = Order.objects.filter(customer=customer, complete=True)
+    for order in orders:
+        order_items = OrderItem.objects.filter(order=order.pk, product=product_id)
+
+        if order_items.exists():
+            return True
+        else:
+           return False
 
 # API REQUESTS
 @api_view(['GET'])

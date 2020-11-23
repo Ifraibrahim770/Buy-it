@@ -20,7 +20,7 @@ from django.conf import settings
 from django_email_verification import urls as mail_urls
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('site/admin/', admin.site.urls),
     path('', include('store.urls')),
     path('accounts/', include('allauth.urls')),
     path('email/', include(mail_urls)),
