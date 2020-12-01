@@ -510,7 +510,8 @@ def isProductPurchased(request, product_id):
 
 
 def Stalls(request):
-    return render(request, 'store/Stalls.html')
+    stalls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    return render(request, 'store/Stalls.html', {"stalls": stalls})
 
 
 # API REQUESTS
