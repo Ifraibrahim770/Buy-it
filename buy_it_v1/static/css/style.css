@@ -67,7 +67,7 @@ a {
     max-height: 55px;
 }
 
-.header-item-holder .header-item:hover, .header-item-holder  .header-item:focus {
+.header-item-holder .header-item:hover, .header-item-holder .header-item:focus {
     color: #000;
     text-decoration: none;
 }
@@ -87,9 +87,9 @@ a {
 
 .product-item {
     box-shadow: #ccc 0 0 10px 1px;
-	width: 100%;
+    width: 100%;
     height: 10000px;
-	
+
 
 }
 
@@ -148,7 +148,7 @@ a.product-name:hover, a.product-name:focus {
     margin-top: 10px;
 }
 
-.footer-logo a, .footer-nav a{
+.footer-logo a, .footer-nav a {
     color: #e0e0e0;
     text-decoration: none;
 }
@@ -166,6 +166,7 @@ a.product-name:hover, a.product-name:focus {
 .footer-logo a:hover, .footer-logo a:focus, .footer-nav a:hover, .footer-nav a:focus, .social-icon:hover, .social-icon:focus {
     color: #fff;
 }
+
 
 .message-holder {
     position: fixed;
@@ -368,19 +369,19 @@ table td, table th {
 table td img {
     max-height: 80px;
 }
-.box {
-  background-color: black;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 20px;
-  height: 20px;
-  margin-left: -10px;
-  /* -1/2 width */
-  margin-top: -10px;
-  /* -1/2 height */
-}
 
+.box {
+    background-color: black;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    margin-left: -10px;
+    /* -1/2 width */
+    margin-top: -10px;
+    /* -1/2 height */
+}
 
 
 @media (max-width: 767.98px) {
@@ -389,43 +390,45 @@ table td img {
         border-top-width: 1px !important;
     }
 
-.table_scroll{
-   overflow-y:scroll;
-   height:100px;
-   display:block;
-}
-
- @media (max-width: 576px) {
-    .col-sm-6 {
-        flex: 0 0 50% !important;
-        max-width: 50% !important;
+    .table_scroll {
+        overflow-y: scroll;
+        height: 100px;
+        display: block;
     }
 
-.alert {
-    position: relative;
-    padding: .75rem 1.25rem;
-    margin-bottom: 18rem;
-    border: 1px solid transparent;
-    border-radius: .25rem;
-}
-input.button-add {
-    background-image: url(/images/buttons/icon.png); /* 16px x 16px */
-    background-color: transparent; /* make the button transparent */
-    background-repeat: no-repeat;  /* make the background image appear only once */
-    background-position: 0px 0px;  /* equivalent to 'top left' */
-    border: none;           /* assuming we don't want any borders */
-    cursor: pointer;        /* make the cursor like hovering over an <a> element */
-    height: 16px;           /* make this the size of your image */
-    padding-left: 16px;     /* make text start to the right of the image */
-    vertical-align: middle; /* align the text vertically centered */
-}
+    @media (max-width: 576px) {
+        .col-sm-6 {
+            flex: 0 0 50% !important;
+            max-width: 50% !important;
+        }
 
-@media screen and (max-width: 600px) {
-  .main_menu {
-    visibility: hidden;
-    clear: both;
-    display: none;
-  }
-}
+        .alert {
+            position: relative;
+            padding: .75rem 1.25rem;
+            margin-bottom: 18rem;
+            border: 1px solid transparent;
+            border-radius: .25rem;
+        }
 
+        input.button-add {
+            background-image: url(/images/buttons/icon.png); /* 16px x 16px */
+            background-color: transparent; /* make the button transparent */
+            background-repeat: no-repeat; /* make the background image appear only once */
+            background-position: 0px 0px; /* equivalent to 'top left' */
+            border: none; /* assuming we don't want any borders */
+            cursor: pointer; /* make the cursor like hovering over an <a> element */
+            height: 16px; /* make this the size of your image */
+            padding-left: 16px; /* make text start to the right of the image */
+            vertical-align: middle; /* align the text vertically centered */
+        }
+
+        @media screen and (max-width: 600px) {
+            .main_menu {
+                visibility: hidden;
+                clear: both;
+                display: none;
+            }
+        }
+
+    }
 }
